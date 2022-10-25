@@ -1,0 +1,96 @@
+<mat-card >
+  <div >
+    <mat-card-title>Settings</mat-card-title>
+    <mat-card-subtitle>Manage your practise</mat-card-subtitle>
+  </div>
+  <mat-toolbar color="accent">
+    <span >{{settings.practise.practise_name}}</span>
+  </mat-toolbar>
+  
+  <!-- <mat-card-actions>
+    <div *ngIf="show_home==true" >
+      <button mat-raised-button color="accent" (click)="Show_Make_Appointment()">Make Appointment</button>
+
+        <button mat-raised-button color="accent"
+            matBadge="{{num_ptc}}"  matBadgeColor="accent" (click)="Show_Profile_Compelete()">
+          Profiles To Complete
+        </button>
+    </div>
+    <div *ngIf="show_makeappointment">
+    <button mat-raised-button color="red" (click)="Close_Make_Appointment()">Cancel</button>
+    </div>
+    <div *ngIf="show_patient_profile_complete">
+      <button mat-raised-button color="red" (click)="Close_Profile_Compelete()">Cancel</button>
+      </div>
+  </mat-card-actions> -->
+</mat-card>
+<br>
+<br>
+<br>
+<mat-divider></mat-divider>
+<mat-expansion-panel  [expanded]="true">
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      <mat-toolbar color="accent">
+        <span > Personel Information</span>
+      </mat-toolbar>
+    </mat-panel-title>
+
+  </mat-expansion-panel-header>
+  <form [formGroup]="EditForm" (ngSubmit)="Submit(EditForm.value)">
+    <p>
+    <mat-form-field appearance="fill" class="example-full-width"  color="accent">
+      <mat-label>Name: {{user_profile.name}}</mat-label>
+      <input matInput formControlName="name" type="text" id="name" class="fadeIn second"  placeholder="{{user_profile.name}}">
+    
+      <!-- <mat-hint>Hint</mat-hint> -->
+    </mat-form-field>
+  </p>
+
+  <p>
+    <mat-form-field appearance="fill" class="example-full-width"  color="accent">
+      <mat-label>Surname: {{user_profile.surname}}</mat-label>
+      <input matInput formControlName="surname" type="text" id="surname"   class="fadeIn second"  placeholder="{{user_profile.surname}}">
+   
+      <!-- <mat-hint>Hint</mat-hint> -->
+    </mat-form-field>
+  </p>
+
+
+  <p>
+    <mat-form-field appearance="fill" class="example-full-width"  color="accent">
+      <mat-label>Email: {{user_profile.email}}</mat-label>
+      <input matInput formControlName="email" type="text"  id="email"  class="fadeIn second"  placeholder="{{user_profile.email}}">
+  
+      <!-- <mat-hint>Hint</mat-hint> -->
+    </mat-form-field>
+  </p>
+   
+  </form>
+
+  <mat-action-row>
+    <button mat-raised-button color="red" >Cancel</button>
+    <button mat-raised-button color="accent" >Submit</button>
+  </mat-action-row>
+</mat-expansion-panel>
+<mat-divider></mat-divider>
+<mat-expansion-panel  [expanded]="true">
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      <mat-toolbar color="accent">
+        <span > Software Setup</span>
+      </mat-toolbar>
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+  <h3>Patient Threshhold</h3>
+  <mat-slider
+      thumbLabel
+      [displayWith]="formatLabel"
+      tickInterval="1"
+      step="1"
+      min="0"
+      max="1000"
+      aria-label="units"></mat-slider>
+
+</mat-expansion-panel>
+

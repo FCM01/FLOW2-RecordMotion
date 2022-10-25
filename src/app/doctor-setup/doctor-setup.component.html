@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+  <div *ngIf="wait">
+    <div class="wrapper fadeInDown">
+      <div id="formContent">
+        
+        <div   class="preload">
+    
+            <div class="centre">
+              <div class = "loader">
+                <div class="one"> </div>
+                <div class="two"></div>
+                <div class ="three"></div>
+            </div>
+        
+            </div>
+          
+          </div>
+      </div>
+    
+  </div>
+  <footer>
+    <p>All rights reserved. @FLOW2 2022</p>
+</footer>
+  </div>
+    <div class="wrapper fadeInDown">
+        <div id="formContent">
+         
+          <div *ngIf="step1">
+            <h2 class="active" routerLink="/login">Login</h2>
+            <h2 class="active" (click)="Show_step1()" >Set You Up</h2>
+            <h2 class="inactive underlineHover" (click)="Show_step2()">Set Your Practise Up</h2>
+            <h2 class="inactive underlineHover" (click)="Show_step3()">Set Your Preference</h2>
+            <aside>
+                <img src="./assets/images/FLOW2 Logo.png">
+              </aside>
+            <form [formGroup]="Set1Form" (ngSubmit)="Save_Form1(Set1Form.value)">
+                <input type="text"  formControlName="first_name" class="fadeIn second"  placeholder="First name">
+                <div class="alert" *ngIf="!Set1Form.controls['first_name'].valid && Set1Form.controls['first_name'].touched">
+                  <span>{{titleAlert1}} </span>
+                </div>
+                <input type="text"  formControlName="surname" class="fadeIn second"  placeholder="Surname">
+                <div class="alert" *ngIf="!Set1Form.controls['surname'].valid && Set1Form.controls['surname'].touched">
+                  <span>{{titleAlert1}} </span>
+                </div>
+                <br>
+                <h2>Male</h2>
+                <br>
+                <input type="radio" formControlName="gender" name="gender" value="male" class="fadeIn second" >
+                <br>
+                <h2>Female</h2>
+                <br>
+                <input type="radio" formControlName="gender"  name="gender" value="female" class="fadeIn second" >
+                <br>
+                <h2>Other</h2>
+                <br>
+                <input type="radio" formControlName="gender" name="gender" value="other"class="fadeIn second" >
+                <div class="alert" *ngIf="!Set1Form.controls['gender'].valid && Set1Form.controls['gender'].touched">
+                  <span>{{titleAlert1}} </span>
+                </div>
+                <br>
+                <h2>Date of Birth</h2>
+                <br>
+                <input type="date" formControlName="dob" class="fadeIn second"  placeholder="Date of Birth">
+                <div class="alert" *ngIf="!Set1Form.controls['dob'].valid && Set1Form.controls['dob'].touched">
+                  <span>{{titleAlert1}} </span>
+                </div>
+                <input type="text"  formControlName="specialization" class="fadeIn second"  placeholder="Specialization">
+                <div class="alert" *ngIf="!Set1Form.controls['specialization'].valid && Set1Form.controls['specialization'].touched">
+                  <span>{{titleAlert1}} </span>
+                </div>
+                <input type="number"  formControlName="phone_number" class="fadeIn second"  placeholder="Phone number">
+                <div class="alert" *ngIf="!Set1Form.controls['phone_number'].valid && Set1Form.controls['phone_number'].touched">
+                  <span>{{titleAlert1}} </span>
+                </div>
+                <input type="email"  formControlName="email" class="fadeIn second"  placeholder="Email">
+                <div class="alert" *ngIf="!Set1Form.controls['email'].valid && Set1Form.controls['email'].touched">
+                  <span>{{titleAlert1}} </span>
+                </div>
+                <input type="password" id="password" formControlName="password" class="fadeIn third"  placeholder="Password">
+                <div class="alert" *ngIf="!Set1Form.controls['password'].valid && Set1Form.controls['password'].touched">
+                  <span>{{titleAlert1}} </span>
+                
+                </div>
+                <input type="password" id="password_confirm" formControlName="password_confirm" class="fadeIn third"  placeholder="Validate Password">
+                <div class="alert" *ngIf="!Set1Form.controls['password_confirm'].valid && Set1Form.controls['password'].touched">
+                  <span>{{titleAlert1}} </span> 
+                </div>
+                <div *ngIf= "error_message != '' ">
+                  <span class="alert">{{error_message}} </span>
+                </div>
+                <input [disabled]="!Set1Form.valid" type="submit" class="fadeIn fourth" value="Next">
+              </form> 
+
+          </div>
+          <div *ngIf="step2">
+            <h2 class="active" routerLink="/login">Login</h2>
+            <h2 class="inactive underlineHover" (click)="Show_step1()" >Set You Up</h2>
+            <h2 class="active" (click)="Show_step2()">Set Your Practise Up</h2>
+            <h2 class="inactive underlineHover" (click)="Show_step3()">Set Your Preference</h2>
+            <aside>
+                <img src="./assets/images/FLOW2 Logo.png">
+              </aside>
+            <form [formGroup]="Set2Form" (ngSubmit)=" Save_Form2(Set2Form.value)">
+              <h2>Number provided by BHF when you registered</h2>
+              <h2>Very important for your practise to be set up accordily to BHF requirements </h2>
+              <input type="text"  formControlName="practise_number" class="fadeIn third"  placeholder="Practise Number">
+                <div class="alert" *ngIf="!Set2Form.controls['practise_number'].valid && Set2Form.controls['practise_number'].touched">
+                  <span>{{titleAlert1}} </span>
+                
+                </div>
+                <h2>Used to allow your patients to recorginise you on our platform</h2>
+                <input type="text"  formControlName="practise_name" class="fadeIn third"  placeholder="Practise Name">
+                <div class="alert" *ngIf="!Set2Form.controls['practise_name'].valid && Set2Form.controls['practise_name'].touched">
+                  <span>{{titleAlert1}} </span>
+                
+                </div>
+                <input type="text"  formControlName="practice_slogan" class="fadeIn third"  placeholder="Practice Slogan">
+                <div class="alert" *ngIf="!Set2Form.controls['practice_slogan'].valid && Set2Form.controls['practice_slogan'].touched">
+                  <span>{{titleAlert1}} </span>
+                
+                </div>
+                <br>
+                <h2>Working hours for your Practise</h2>
+                <br>
+                <input type="time"  formControlName="open" class="fadeIn third"  placeholder="Opens">
+                <div class="alert" *ngIf="!Set2Form.controls['open'].valid && Set2Form.controls['open'].touched">
+                  <span>{{titleAlert1}} </span>
+                
+                </div>
+                <input type="time"  formControlName="closed" class="fadeIn third"  placeholder="Closing">
+                <div class="alert" *ngIf="!Set2Form.controls['closed'].valid && Set2Form.controls['closed'].touched">
+                  <span>{{titleAlert1}} </span>
+                
+                </div>
+
+                <input type="number"  formControlName="practise_phone_number" class="fadeIn third"  placeholder="Practise Phone Number">
+                <div class="alert" *ngIf="!Set2Form.controls['practise_phone_number'].valid && Set2Form.controls['practise_phone_number'].touched">
+                  <span>{{titleAlert1}} </span>
+                
+                </div>
+                <br>
+                <input class ="fadeIn third"type="checkbox" id="btn" />
+                <div class="popup">
+                  <p>
+                    With a new approach to providing our sevices you dont need to supply the address your practise will be in the virtual space so dont worry  
+                  </p>
+                  <label for="btn">Close</label>
+                </div>
+                <br>
+                <h3>Optional</h3>
+                <input type="text"  formControlName="parctise_address" class="fadeIn third"  placeholder="Parctise Address">
+                <div class="alert" *ngIf="!Set2Form.controls['parctise_address'].valid && Set2Form.controls['parctise_address'].touched">
+                  <span>{{titleAlert1}} </span>
+                
+                </div>
+                <div class="wrapper fadeInDown">
+                  <div id="formContent">
+                  <h2>Provide services you will provide to your patients</h2>
+                  <br>
+                  <a
+
+                *ngFor="let item of services"
+                [class.item-selected]="item.selected"
+                (click)="toggleSelection(item)"
+                id="formFooter"
+                > <h2 class="active">Name: {{ item.service_name }}</h2>
+                  <h2 class="active">Price: {{item.price}}</h2> 
+                  <p>{{item.description}}</p>
+                
+                </a>
+                <input type="text"   class="fadeIn third" #service_name  placeholder="Service Name">
+                <input type="number"   class="fadeIn third" #price  placeholder="Price">
+                <h2>Decribe your service to your patients</h2>
+                <textarea class="fadeIn third"  cols="30" rows="10" #descripton placeholder="Description"></textarea>
+                <br>
+                <label for="g-btn" (click)="addServices(service_name.value,price.value,descripton.value)">Add</label>
+                <br/>
+                  </div>
+                </div>
+                <h3>Optional</h3>
+                <input type="number"  formControlName="number_of_employees" class="fadeIn third"  placeholder="Number of employess">
+                <div class="alert" *ngIf="!Set2Form.controls['number_of_employees'].valid && Set2Form.controls['number_of_employees'].touched">
+                  <span>{{titleAlert1}} </span>
+                
+                </div>
+                <h2>What is the vision of your practise</h2>
+                <h3>Optional</h3>
+                <input type="text"  formControlName="practise_vision" class="fadeIn third"  placeholder="Practise Vision">
+                <div class="alert" *ngIf="!Set2Form.controls['practise_vision'].valid && Set2Form.controls['practise_vision'].touched">
+                  <span>{{titleAlert1}} </span>
+                
+                </div>
+                
+
+                <div *ngIf= "error_message != '' ">
+                  <span class="alert">{{error_message}} </span>
+                </div>
+                <input [disabled]="!Set2Form.valid" type="submit" class="fadeIn fourth" value="Next" >
+              </form> 
+
+          </div>
+          <div *ngIf="step3">
+            <h2 class="active" routerLink="/login">Login</h2>
+            <h2 class="inactive underlineHover" (click)="Show_step1()" >Set You Up</h2>
+            <h2 class="inactive underlineHover" (click)="Show_step2()">Set Your Practise Up</h2>
+            <h2 class="active" (click)="Show_step3()">Set Your Preference</h2>
+            <aside>
+                <img src="./assets/images/FLOW2 Logo.png">
+              </aside>
+            <form [formGroup]="Set3Form" (ngSubmit)="Save_Form3(Set3Form.value)">'
+              <h2>How many patients would you like to see on a freelancing day ,this is to give you flexibilty of your day if you want to attend to other task</h2>
+              <h2>Note:your virtual practise funtions will not be affected by this your paratise will fuction as normal your virtual reciptionist will handle eveything</h2>
+              <h2>This also helps us advice and help you reach your desired goal in rach and income</h2>
+                <input type="number"  formControlName="patient_threshhold" class="fadeIn second"  placeholder="Patient Thresh Hold">
+                <div class="alert" *ngIf="!Set3Form.controls['patient_threshhold'].valid && Set3Form.controls['patient_threshhold'].touched">
+                  <span>{{titleAlert1}} </span>
+                </div>
+                <input type="text"  formControlName="payment_method" class="fadeIn third"  placeholder="Password">
+                <div class="alert" *ngIf="!Set3Form.controls['payment_method'].valid && Set3Form.controls['payment_method'].touched">
+                  <span>{{titleAlert1}} </span>
+                
+                </div>
+                <div *ngIf= "error_message != '' ">
+                  <span class="alert">{{error_message}} </span>
+                </div>
+                <input [disabled]="!Set3Form.valid" type="submit" class="fadeIn fourth" value="Log In">
+              </form> 
+
+          </div>
+                             
+        </div>
+      </div>
+
+
+      
+</body>
+</html>

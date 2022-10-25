@@ -1,0 +1,22 @@
+<mat-toolbar color="accent">
+  <span routerLink="/doctordash">Documents</span>
+</mat-toolbar>
+<mat-list>
+    
+ 
+    <div mat-subheader> Doctors Notes</div>
+    <mat-list-item *ngFor="let note of notes">
+      <mat-icon mat-list-icon>note</mat-icon>
+      <div mat-line>Patient number: {{note.patient_number}}</div>
+      <div mat-line>File name: {{note.filename}}</div>
+      <div mat-line>Location: {{note.url}} </div>
+    </mat-list-item>
+    <mat-divider></mat-divider>
+    <div mat-subheader>Perscriptions</div>
+    <mat-list-item *ngFor="let note of persriptions">
+      <mat-icon mat-list-icon>note</mat-icon>
+      <div mat-line>Patient number: {{note.patient_number}}</div>
+      <div mat-line>File name: {{note.filename}}</div>
+      <div mat-line>Location: {{note.url}} </div>
+    </mat-list-item>
+  </mat-list>

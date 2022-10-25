@@ -1,0 +1,348 @@
+<p>
+  <mat-toolbar color="accent">
+    <span routerLink="/doctordash">Patient</span>
+  </mat-toolbar>
+</p>
+<div class="wrapper fadeInDown">
+  <div id="formContent">
+    <div *ngIf="show_personel">
+      <h2 class="active" (click)=" Show_step1()">Personel </h2>
+      <h2 class="inactive underlineHover" (click)=" Show_step2()">
+              Medical Information
+              </h2>
+        <h2 class="inactive underlineHover" (click)=" Show_step3()">
+          Waivers
+              </h2>
+      <form [formGroup]="Set1Form" (ngSubmit)="Save_Form1(Set1Form.value)">
+        
+      <input
+      type="text"
+      id="login"
+      formControlName="name"
+      class="fadeIn second"
+      placeholder="Name"
+    />
+    <div
+      class="alert"
+      *ngIf="
+        !Set1Form.controls['name'].valid &&
+        Set1Form.controls['name'].touched
+      "
+    >
+      <span>{{ titleAlert1 }} </span>
+    </div>
+    <input
+      type="text"
+      id="login"
+      formControlName="surname"
+      class="fadeIn second"
+      placeholder="Surname"
+    />
+    <div
+      class="alert"
+      *ngIf="
+        !Set1Form.controls['surname'].valid &&
+        Set1Form.controls['surname'].touched
+      "
+    >
+      <span>{{ titleAlert1 }} </span>
+    </div>
+    <input
+      type="text"
+      id="login"
+      formControlName="email"
+      class="fadeIn second"
+      placeholder="Email"
+    />
+    <div
+      class="alert"
+      *ngIf="
+        !Set1Form.controls['email'].valid &&
+        Set1Form.controls['email'].touched
+      "
+    >
+    <span>{{ titleAlert1 }} </span>
+    </div>
+   
+    <input
+      type="text"
+      id="login"
+      formControlName="phone_number"
+      class="fadeIn second"
+      placeholder="Phone Number"
+    />
+    <div
+      class="alert"
+      *ngIf="
+        !Set1Form.controls['phone_number'].valid &&
+        Set1Form.controls['phone_number'].touched
+      "
+    >
+      <span>{{ titleAlert1 }} </span>
+    </div>
+    <input
+      type="text"
+      id="login"
+      formControlName="id_number"
+      class="fadeIn second"
+      placeholder="ID Number"
+    />
+    <div
+      class="alert"
+      *ngIf="
+        !Set1Form.controls['id_number'].valid &&
+        Set1Form.controls['id_number'].touched
+      "
+    >
+      <span>{{ titleAlert1 }} </span>
+    </div>
+    <input
+      type="text"
+      id="login"
+      formControlName="title"
+      class="fadeIn second"
+      placeholder="Title"
+    />
+    <div
+      class="alert"
+      *ngIf="
+        !Set1Form.controls['title'].valid &&
+        Set1Form.controls['title'].touched
+      "
+    >
+      <span>{{ titleAlert1 }} </span>
+    </div>
+  
+    <input
+    type="text"
+    formControlName="street_address"
+    class="fadeIn third"
+    placeholder=" Street Address"
+  />
+  <div
+    class="alert"
+    *ngIf="
+      !Set1Form.controls['street_address'].valid &&
+      Set1Form.controls['street_address'].touched
+    "
+  >
+    <span>{{ titleAlert1 }} </span>
+  </div>
+
+  <input
+    type="text"
+    formControlName="city"
+    class="fadeIn third"
+    placeholder="City"
+  />
+  <div
+    class="alert"
+    *ngIf="
+      !Set1Form.controls['city'].valid &&
+      Set1Form.controls['city'].touched
+    "
+  >
+    <span>{{ titleAlert1 }} </span>
+  </div><input
+  type="text"
+  formControlName="postal_code"
+  class="fadeIn third"
+  placeholder="Postal Code"
+/>
+<div
+  class="alert"
+  *ngIf="
+    !Set1Form.controls['postal_code'].valid &&
+    Set1Form.controls['postal_code'].touched
+  "
+>
+
+
+  <span>{{ titleAlert1 }} </span>
+</div>   
+ 
+      <input [disabled]="!Set1Form.valid" type="submit" class="fadeIn fourth" value="Next" (click)="Save_Form1" >
+    </form>
+
+    </div>
+    <div *ngIf="show_medical_info">
+      <h2  class="inactive underlineHover" (click)=" Show_step1()">Personel </h2>
+      <h2 class="active" (click)=" Show_step2()">
+              Medical Information
+              </h2>
+        <h2 class="inactive underlineHover" (click)=" Show_step3()">
+          Waivers
+              </h2>
+      <form [formGroup]="Set2Form" (ngSubmit)="Save_Form2(Set2Form.value)">
+        <h2 class="active">What is your current medical condition? Do you have any communicable disease, cardiovascular problems, diabetes, asthma etc.?</h2>
+        <textarea formControlName="preexsiting_medical_issues"   class="fadeIn second" cols="30" rows="10"></textarea>
+        <div
+  
+        
+          class="alert"
+          *ngIf="
+            !Set2Form.controls['preexsiting_medical_issues'].valid &&
+            Set2Form.controls['preexsiting_medical_issues'].touched
+          "
+        >
+          <span>{{ titleAlert1 }} </span>
+        </div>
+        <h2 class="active">Do you have any Allgergies?</h2>
+        <textarea formControlName="allgergies"   class="fadeIn second" cols="30" rows="10"></textarea>
+        <div
+  
+        
+          class="alert"
+          *ngIf="
+            !Set2Form.controls['allgergies'].valid &&
+            Set2Form.controls['allgergies'].touched
+          "
+        >
+          <span>{{ titleAlert1 }} </span>
+        </div>
+        <input
+          type="text"
+          id="login"
+          formControlName="medical_aid_providers"
+          class="fadeIn second"
+          placeholder="Medical Aid Name"
+        />
+        <div
+          class="alert"
+          *ngIf="
+            !Set2Form.controls['medical_aid_providers'].valid &&
+            Set2Form.controls['medical_aid_providers'].touched
+          "
+        >
+          <span>{{ titleAlert1 }} </span>
+        </div>
+  
+        <input
+          type="text"
+          formControlName="medical_aid_number"
+          class="fadeIn third"
+          placeholder="Medical Aid Number"
+        />
+        <div
+          class="alert"
+          *ngIf="
+            !Set2Form.controls['medical_aid_number'].valid &&
+            Set2Form.controls['medical_aid_number'].touched
+          "
+        >
+          <span>{{ titleAlert1 }} </span>
+        </div>  
+      <input [disabled]="!Set2Form.valid" type="submit" class="fadeIn fourth" value="Next" (click)="Save_Form2">
+      </form>
+    </div>
+    <div *ngIf="show_waivers">
+      <h2 class="inactive underlineHover" (click)=" Show_step1()">Personel </h2>
+      <h2 class="inactive underlineHover" (click)=" Show_step2()">
+              Medical Information
+              </h2>
+        <h2 class="active" (click)=" Show_step3()">
+          Waivers
+              </h2>
+      <form [formGroup]="Set3Form" (ngSubmit)="Save_Form3(Set3Form.value)">
+        <h2> Next of Kin information</h2>
+        <br>
+      <input
+        type="text"
+        formControlName="nearest_family_friend_name"
+        class="fadeIn third"
+        placeholder="Name"
+      />
+      <div
+        class="alert"
+        *ngIf="
+          !Set3Form.controls['nearest_family_friend_name'].valid &&
+          Set3Form.controls['nearest_family_friend_name'].touched
+        "
+      >
+        <span>{{ titleAlert1 }} </span>
+      </div>
+      <input
+        type="text"
+        formControlName="nearest_family_friend_surname"
+        class="fadeIn third"
+        placeholder="Surname"
+      />
+      <div
+        class="alert"
+        *ngIf="
+          !Set3Form.controls['nearest_family_friend_surname'].valid &&
+          Set3Form.controls['nearest_family_friend_surname'].touched
+        "
+      >
+        <span>{{ titleAlert1 }} </span>
+      </div>
+      
+      <input
+        type="text"
+        formControlName="nearest_family_friend_phonenumber"
+        class="fadeIn third"
+        placeholder="Phone Number"
+      />
+      <div
+        class="alert"
+        *ngIf="
+          !Set3Form.controls['nearest_family_friend_phonenumber'].valid &&
+          Set3Form.controls['nearest_family_friend_phonenumber'].touched
+        "
+      >
+        <span>{{ titleAlert1 }} </span>
+      </div>
+      
+      <input
+        type="text"
+        formControlName="nearest_family_friend_id_number"
+        class="fadeIn third"
+        placeholder="ID Number"
+      />
+      <div
+        class="alert"
+        *ngIf="
+          !Set3Form.controls['nearest_family_friend_id_number'].valid &&
+          Set3Form.controls['nearest_family_friend_id_number'].touched
+        "
+      >
+        <span>{{ titleAlert1 }} </span>
+      </div>
+      <h2>Acknowledgment, Authorization and Waiver</h2>
+    
+      <h4>Read through waiver:</h4>
+      <ol>
+        <li>I confirm that the doctors explained the procedure thoroughly to me and how it will help me with my current condition.</li>
+        <li>I authorize the use of anesthesia and understands the side effects I can experience from it.</li>
+        <li>I understand the risk and complications if I do not follow the instructions given to me after the procedure which involves post-treatment and follow-ups.</li>
+        <li>I understand that I am not allowed to eat or drink 4-6 hours before the procedure.</li>
+        <li>I acknowledge that all information I provided int his form is true and accurate.</li>
+        <li>I authorize blood transfusion for emergency purposes.</li>
+      </ol>
+      
+      <mat-radio-group
+      aria-labelledby="example-radio-group-label"
+      class="example-radio-group" formControlName="agreement">
+      <mat-radio-button class="example-radio-button" *ngFor="let choice of choices" [value]="choice.value">
+        {{choice.mes}}
+      </mat-radio-button>
+    </mat-radio-group>
+    <br>
+    
+    <input [disabled]="!Set3Form.valid" type="submit" class="fadeIn fourth" value="Add Patient">
+    <div *ngIf="error_message != ''">
+      <span class="alert">{{ error_message }} </span>
+    </div>
+    </form>
+  
+    
+    </div>
+  
+
+      <div id="formFooter">
+        <a class="underlineHover" routerLink="/doctordash"
+          >Cancel</a
+        >
+      </div>
+  </div>
+</div>

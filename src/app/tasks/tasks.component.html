@@ -1,0 +1,165 @@
+<mat-card>
+  <mat-card-title>Task Area</mat-card-title>
+  <mat-card-subtitle>Create and Manage</mat-card-subtitle>
+  <mat-card-actions>
+    <button mat-raised-button color="accent" (click)="Show_add_task()"><mat-icon>add</mat-icon>Task</button>
+    <button mat-raised-button color="accent" *ngIf="add_task" (click)="Close_add_task()" ><mat-icon>dashboard</mat-icon>Mange Tasks</button>
+  </mat-card-actions>
+</mat-card>
+<div *ngIf="add_task == false">
+  <app-task-kanban></app-task-kanban>
+</div>
+<mat-divider></mat-divider>
+
+
+
+<div *ngIf="add_task"  class="wrapper">
+  <div id="formContent">
+  
+    <div *ngIf="show_assign">
+      <mat-tab label="Fill in">Content 1</mat-tab>
+      <mat-tab label="Second">Content 2</mat-tab>
+      <h2 class=" inactive underlineHover" (click)="Close_assign()">Fill in</h2>
+      <h2 class="active" (click)="Show_assign()" >
+        Assign task
+      </h2>
+      <mat-tab-group mat-align-tabs="center">
+        <mat-tab label="Patients">  <mat-divider></mat-divider>
+          <br>
+          <mat-divider></mat-divider>
+          <h2>Search for patients</h2>
+          <br>
+              <input  type="text" #search placeholder="Search" #text>
+              <button mat-raised-button color="accent" (click)="Search(text.value)"><mat-icon>search</mat-icon>Search</button>
+          
+    <ul class="wrapper fadeInDown" *ngIf="patients_array.length >= 1 ">
+      <h1 class="active">Result</h1>
+      <p>Please select a patient</p>
+      
+    
+          <main class="leaderboard__profiles" *ngFor="let i of patients_array">
+            <article class="leaderboard__profile" (click)="Select_patient(i)">
+              <img src="./assets/images/icon.jpg"  class="leaderboard__picture">
+              <span class="leaderboard__name">{{i.name}} {{i.surname}}</span>
+              <mat-icon>add</mat-icon>
+            </article>
+          </main>
+          <button mat-raised-button (click)="Close_assign()">Back</button>
+      
+    </ul></mat-tab>
+        <mat-tab label="Employee"> <h1 class="active">Result</h1>
+          <p>Please select a Employees</p>
+          
+              <main class="leaderboard__profiles" *ngFor="let i of user_array ">
+                <article class="leaderboard__profile" (click)="Select_user(i)">
+                  <img src="./assets/images/icon.jpg"  class="leaderboard__picture">
+                  <span class="leaderboard__name">{{i.name}} {{i.surname}}</span>
+                  <mat-icon>add</mat-icon>
+                </article>
+               
+              </main>
+              <button mat-raised-button (click)="Close_assign()">Back</button> </mat-tab>
+        
+      </mat-tab-group>
+      
+      
+    </div>
+    <div *ngIf="show_assign==false">
+      <h2 class="active" (click)="Close_assign()">Fill in</h2>
+      <h2 class="inactive underlineHover" (click)="Show_assign()" >
+        Assign task
+      </h2>
+      <form [formGroup]="TaskForm" (ngSubmit)="Submit(TaskForm.value)">
+        <input
+        type="text"
+        formControlName="task"
+        class="fadeIn second"
+        placeholder="Task"
+      />
+      <div
+        class="alert"
+        *ngIf="
+          !TaskForm.controls['task'].valid &&
+          TaskForm.controls['task'].touched
+        "
+      >
+        <span>{{ titleAlert1 }} </span>
+      </div>
+    
+      <h2>Choice priorty of the Task</h2>
+      <br>
+      <mat-radio-group
+            aria-labelledby="example-radio-group-label"
+            class="example-radio-group" formControlName="priorty">
+            <mat-radio-button class="example-radio-button" *ngFor="let choice of priorties" [value]="choice.color">
+              {{choice.mes}}
+            </mat-radio-button>
+        </mat-radio-group>
+        <div class="wrapper fadeInDown" *ngIf="selected_patient!=''">
+          <div id="formContent">
+            <h2 >Selected patients</h2>
+            <main class="leaderboard__profiles" *ngFor="let i of selected_patient">
+              <article class="leaderboard__profile" >
+                <img src="./assets/images/icon.jpg"  class="leaderboard__picture">
+                <span class="leaderboard__name">{{ i.name}} {{ i.surname}}</span>
+                <button mat-raised-button (click)="Remove(i)"><mat-icon>delete_outline</mat-icon>
+                  </button>
+                
+              </article>
+            </main>
+            
+          
+          </div>
+        </div>
+      
+       <br>
+      <div *ngIf="error_message != ''">
+        <span class="alert">{{ error_message }} </span>
+      </div>
+      <br>
+      <input
+        [disabled]="!TaskForm.valid"
+        type="submit"
+        class="fadeIn fourth"
+        value="Add task"
+      />
+      <div id="formFooter">
+        <a class="underlineHover" (click)="Close_add_task()"
+          >Cancel</a
+        >
+      </div>
+  
+      </form>
+
+    </div>
+
+    
+  </div>
+</div>
+<!-- <a
+
+  *ngFor="let item of task_list"
+  [class.item-selected]="item.selected"
+  
+  id="formFooter"
+  > 
+    <div class="task-box blue,inactive underlineHover">
+      <div class="description-task">
+        <div class="time,active"><p>Time: {{item.time}}</p></div>
+        <div class="task-name,active"><p>Name: {{item.task}}</p></div>
+      </div>
+      <div role="navigation" class="primary-navigation">
+        <ul>
+          <li><a >More &dtrif;</a>
+            <ul class="dropdown">
+              <li><a  class="active">Consult</a></li>
+              <li><a (click)="toggleSelection(item)">Cancel</a></li>
+              <li><a >Patient Infromation</a></li>
+              
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  
+  </a>  -->

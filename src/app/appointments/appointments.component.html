@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <p>
+    <mat-toolbar color="accent">
+      <span routerLink="/doctordash">Make Appointments</span>
+    </mat-toolbar>
+  </p>
+  <body>
+    
+    <div class="wrapper fadeInDown">
+      <div id="formContent">
+        
+        <div *ngIf="search">
+          <h2 class="inactive underlineHover" (click)="Close_search()">Make Appointment</h2>
+          <h2 class="active" (click)="Show_search()">
+          Search 
+          </h2>
+          <mat-divider></mat-divider>
+          <h2>Search for patients</h2>
+          <br>
+              <input  type="text" #search placeholder="Search" #text>
+              <button mat-raised-button color="accent" (click)="Search(text.value)"><mat-icon>search</mat-icon>Search</button>
+          <mat-divider></mat-divider>
+          <ul class="wrapper fadeInDown" *ngIf="patients_array.length >= 1 ">
+            <h1 class="active">Result</h1>
+            <p>Please select a patient</p>
+            
+               
+                <main class="leaderboard__profiles" *ngFor="let i of patients_array">
+                  <article class="leaderboard__profile" (click)="Select_patient(i)">
+                    <img src="./assets/images/icon.jpg"  class="leaderboard__picture">
+                    <span class="leaderboard__name">{{i.name}} {{i.surname}}</span>
+                  </article>
+                </main>
+            
+          </ul>
+          <div class="wrapper fadeInDown" *ngIf="selected_patient!=''">
+            <div id="formContent">
+              <main class="leaderboard__profiles" >
+                <article class="leaderboard__profile" >
+                  <img src="./assets/images/icon.jpg"  class="leaderboard__picture">
+                  <span class="leaderboard__name">{{selected_patient.name}} {{selected_patient.surname}}</span>
+                  <button mat-raised-button (click)="Remove()"><mat-icon>delete_outline</mat-icon>
+                    </button>
+                  
+                </article>
+              </main>
+            </div>
+            
+          </div>
+          <mat-divider></mat-divider>
+          <br>
+          <h2>Please select a service</h2>
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+              Services
+              </mat-panel-title>
+              <mat-panel-description>
+                Select Services that is about to be performed
+                <mat-icon> local_hospital</mat-icon>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+            <mat-chip-list *ngFor="let i of service_array"> 
+              <mat-chip (click)="ServiceSelection(i)">
+                <img matChipAvatar src="./assets/images/clock.jpg"/>
+                {{i["service_name"]}}
+              </mat-chip>
+             
+            
+            </mat-chip-list>
+             <br>
+             <br>
+             <br>
+            <mat-card *ngIf="selection">
+              <mat-card-title>{{service_type.service_name}}</mat-card-title>
+              <mat-card-subtitle style="color:pink ;">R {{service_type.price}}</mat-card-subtitle>
+              <mat-card-actions align="end">
+                <button color="accent" mat-raised-button (click)=" CancelSelection()">Cancel</button>
+              </mat-card-actions>
+            </mat-card>
+           
+          </mat-expansion-panel>  
+          <mat-divider></mat-divider>
+         <form [formGroup]="searchForm"
+         (ngSubmit)="Submit_serch(searchForm.value)"
+          >
+         
+          
+          <h2>Date for Appointment</h2>
+          <br>
+          <input
+          type="date"
+          formControlName="date"
+          class="fadeIn second"
+          placeholder="Date"
+        />
+        <div
+          class="alert"
+          *ngIf="
+            !searchForm.controls['date'].valid &&
+            searchForm.controls['date'].touched
+          "
+        >
+          <span>{{ titleAlert1 }} </span>
+        </div>
+        <ul>
+          <h2  >Time Slot</h2>
+          <p>Please select hour of your Appointment</p>
+          <a class="inactive underlineHover" 
+            *ngFor="let item of time_slot_list" 
+            [class.item-selected]="item.selected"
+             id="formFooter">
+            <mat-chip color="accent"  (click)="setTime_slots(item)">
+                <img matChipAvatar src="./assets/images/clock.jpg"/>
+                Time:{{item}}
+              </mat-chip>
+          </a>
+        </ul>
+        <div *ngIf="error_message != ''">
+          <span class="alert">{{ error_message }} </span>
+        </div>
+        <div *ngIf="slot_selected != ''">
+            <h2>Slot Selected:</h2>
+            <mat-chip color="accent">
+              <img matChipAvatar src="./assets/images/clock.jpg"/>
+              {{slot_selected}}
+            </mat-chip>
+        </div>
+          <input
+            [disabled]="!searchForm.valid"
+            type="submit"
+            class="fadeIn fourth"
+            value="Submit"
+          />
+         </form>
+        
+
+          <div id="formFooter">
+            <a class="underlineHover" 
+              >Help</a
+            >
+          </div>
+        </div>
+
+        <form
+          [formGroup]="appointmentForm"
+          (ngSubmit)="Submit(appointmentForm.value)"
+         *ngIf="search == false">
+         <h2 class="active" (click)="Close_search()">Make Appointment</h2>
+        <h2 class="inactive underlineHover" (click)="Show_search()">
+          Search 
+        </h2>
+          <input
+            type="text"
+            formControlName="name"
+            class="fadeIn second"
+            placeholder="Name"
+          />
+          <div
+            class="alert"
+            *ngIf="
+              !appointmentForm.controls['name'].valid &&
+              appointmentForm.controls['name'].touched
+            "
+          >
+            <span>{{ titleAlert1 }} </span>
+          </div>
+          <input
+            type="text"
+            formControlName="surname"
+            class="fadeIn second"
+            placeholder="Surname"
+          />
+          <div
+            class="alert"
+            *ngIf="
+              !appointmentForm.controls['surname'].valid &&
+              appointmentForm.controls['surname'].touched
+            "
+          >
+            <span>{{ titleAlert1 }} </span>
+          </div>
+          <input
+            type="email"
+            formControlName="email"
+            class="fadeIn second"
+            placeholder="Email"
+          />
+          <div
+            class="alert"
+            *ngIf="
+              !appointmentForm.controls['email'].valid &&
+              appointmentForm.controls['email'].touched
+            "
+          >
+          <span>{{ titleAlert1 }} </span>
+          </div>
+            
+          
+          <input
+            type="number"
+            formControlName="phone_number"
+            class="fadeIn second"
+            placeholder="Phone number"
+          />
+          <div
+            class="alert"
+            *ngIf="
+              !appointmentForm.controls['phone_number'].valid &&
+              appointmentForm.controls['phone_number'].touched
+            "
+          >
+            <span>{{ titleAlert1 }} </span>
+          </div>
+          <mat-divider></mat-divider>
+          <h2>Please select a service</h2>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+            Services
+            </mat-panel-title>
+            <mat-panel-description>
+              Select Services that is about to be performed
+              <mat-icon> local_hospital</mat-icon>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <mat-chip-list *ngFor="let i of service_array"> 
+            <mat-chip (click)="ServiceSelection(i)">
+              <img matChipAvatar src="./assets/images/clock.jpg"/>
+              {{i["service_name"]}}
+            </mat-chip>
+           
+          
+          </mat-chip-list>
+           <br>
+           <br>
+           <br>
+          <mat-card *ngIf="selection">
+            <mat-card-title>{{service_type.service_name}}</mat-card-title>
+            <mat-card-subtitle style="color:pink ;">R {{service_type.price}}</mat-card-subtitle>
+            <mat-card-actions align="end">
+              <button color="accent" mat-raised-button (click)=" CancelSelection()">Cancel</button>
+            </mat-card-actions>
+          </mat-card>
+         
+        </mat-expansion-panel>  
+
+          <mat-divider></mat-divider>
+          <h2>Date for Appointment</h2>
+          <br>
+          <input
+          type="date"
+          formControlName="date"
+          class="fadeIn second"
+          placeholder="Date"
+          />
+          <div
+          class="alert"
+          *ngIf="
+            !appointmentForm.controls['date'].valid &&
+            appointmentForm.controls['date'].touched
+          "
+          >
+          <span>{{ titleAlert1 }} </span>
+          </div>
+          <mat-divider></mat-divider>
+          <ul>
+            <h2 >Time Slot</h2>
+            <p>Please select hour of your Appointment</p>
+            <a class="inactive underlineHover" 
+              *ngFor="let item of time_slot_list" 
+              [class.item-selected]="item.selected"
+               id="formFooter">
+               <mat-chip color="accent"  (click)="setTime_slots(item)">
+                <img matChipAvatar src="./assets/images/clock.jpg"/>
+                Time:{{item}}
+              </mat-chip>
+            </a>
+          </ul>
+          <div *ngIf="error_message != ''">
+            <span class="alert">{{ error_message }} </span>
+          </div>
+          <div *ngIf="slot_selected != ''">
+              <h2>Slot Selected:</h2>
+              <mat-chip color="accent">
+                <img matChipAvatar src="./assets/images/clock.jpg"/>
+                {{slot_selected}}
+              </mat-chip>
+          </div>
+          <input
+            [disabled]="!appointmentForm.valid"
+            type="submit"
+            class="fadeIn fourth"
+            value="Submit"
+          />
+
+          <div id="formFooter">
+            <a class="underlineHover" routerLink="/doctordash" 
+              >Cancel</a
+            >
+          </div>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<p>
+  <mat-toolbar color="accent">
+    <span >Patients Profiles To Complete List</span>
+  </mat-toolbar>
+</p>
+<body>
+  <div class="wrapper fadeInDown">
+    <div id="formContent">
+      <article class="leaderboard" >
+        <header>
+          <h1 class="leaderboard__title"><span class="leaderboard__title--top">Profile Complete</span><span class="leaderboard__title--bottom">List</span></h1>
+        </header>
+        <div class="example-flex-container">
+          <div class="example-button-container">
+          </div>
+        </div>
+        <br>
+        <h2>Click user profile to expand Information </h2>
+      
+        <main class="leaderboard__profiles" *ngFor="let i of profiles">
+          
+          <article class="leaderboard__profile" (click) = "expand(i)">
+            <img src="./assets/images/icon.jpg"  class="leaderboard__picture">
+            <span class="leaderboard__name">{{i.name}} {{i.surname}}</span>
+            <span class="leaderboard__value">{{i.patient_number}} <span>Patient Number</span></span>
+          </article>
+        </main>
+      </article>
+
+    </div>
+  </div>
+  
+</body>
+</html>

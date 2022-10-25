@@ -1,0 +1,55 @@
+<div class="grid-container">
+
+  <h1 class="title">Todays Appointment Activity</h1>
+  <p class="sub_title">{{appointment_stats }} appointments today</p>
+  <canvas baseChart width="1400" height="300"
+  [data]="barChartData"
+  [options]="barChartOptions"
+  [plugins]="barChartPlugins"
+  [legend]="barChartLegend"
+  [type]="'bar'">
+  </canvas>
+  <mat-divider></mat-divider>
+    <h1 class="title">System statistics</h1>
+    <br>
+    <br>
+    <mat-grid-list cols="4" rowHeight="5:3">
+      <mat-grid-tile><mat-card >
+        <mat-card-subtitle>Your practise</mat-card-subtitle>
+        <mat-card-title>Todays appointments:</mat-card-title>
+        <mat-card-title><h1 [countUp]="appointment_stats " [duration]="duration"></h1></mat-card-title>
+      </mat-card></mat-grid-tile>
+      <mat-grid-tile><mat-card >
+        <mat-card-subtitle>Your practise</mat-card-subtitle>
+        <mat-card-title>Follow Ups:</mat-card-title>
+        <mat-card-title><h1 [countUp]="followups_stats" [duration]="duration"></h1></mat-card-title>
+      </mat-card></mat-grid-tile>
+
+      <mat-grid-tile><mat-card >
+        <mat-card-subtitle>Your practise</mat-card-subtitle>
+        <mat-card-title>Total Consultations:</mat-card-title>
+        <mat-card-title><h1 [countUp]="consultations_stats" [duration]="duration"></h1></mat-card-title>
+      </mat-card></mat-grid-tile>
+
+      <mat-grid-tile><mat-card >
+        <mat-card-subtitle>Your practise</mat-card-subtitle>
+        <mat-card-title>Total Tasks:</mat-card-title>
+        <mat-card-title><h1 [countUp]="tasks_stats " [duration]="duration"></h1></mat-card-title>
+      </mat-card></mat-grid-tile>
+    </mat-grid-list>
+    <br>
+    <mat-divider></mat-divider>
+   
+    
+    <app-followups></app-followups>
+    <!-- <mat-card >
+      <mat-card-title>RecordMotion</mat-card-title>
+      <mat-card-subtitle>EHR system</mat-card-subtitle>
+      <mat-card-content>
+        <p>This is the The Vision we have for your practise</p>
+        <p>{{ longText }}</p>
+      </mat-card-content>
+      <mat-divider inset></mat-divider>
+    
+  </mat-card> -->
+</div>

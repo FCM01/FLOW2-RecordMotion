@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+<!--    
+    <mat-card>
+        <mat-card-title>Follow Ups</mat-card-title>
+        <mat-card-subtitle>Create and Manage</mat-card-subtitle>
+        <mat-card-actions>
+          <div *ngIf="show_make_task==false" >
+            <button mat-raised-button color="accent" (click)="Show_Make_Followup()">Make Follow up</button>
+          </div>
+          <div *ngIf="show_make_task">
+          <button mat-raised-button color="red" (click)="Close_Make_Followup()">Cancel</button>
+          </div>
+
+        </mat-card-actions>
+      </mat-card> -->
+        <mat-grid-list *ngIf="followup_seleted" cols="1" rowHeight="200px" rowWidth="200 px">
+            <mat-grid-tile >
+                <mat-divider></mat-divider>
+                <mat-card class="example-card">
+                    <mat-card-header>
+                      <div mat-card-avatar class="example-header-image">
+                        <img src="./assets/images/icon.jpg" class="icon">
+                      </div>
+                      <mat-card-title>Consulatation Number: {{followup.consultaion_number}}</mat-card-title>
+                      <mat-card-subtitle>Patient Number: {{followup.patient_number}}</mat-card-subtitle>
+                    </mat-card-header>
+                    <mat-card-content>
+                      <p>
+                        {{followup.follow_up_message}}
+                      </p>
+                    </mat-card-content>
+                    <mat-card-actions>
+                      <button (click)="Close_Info()" mat-button>Close</button>
+                    </mat-card-actions>
+                  </mat-card>
+                  
+            </mat-grid-tile>
+           
+          </mat-grid-list>
+
+          <div class="container" *ngIf="show_make_task==false">
+            <h2>Followup Table <small></small></h2>
+            <ul class="responsive-table">
+              <li class="table-header">
+                <div class="col col-1">Date</div>
+                <div class="col col-2">Instruction</div>
+                <div class="col col-3">Consulatation Number</div>
+                <div class="col col-5">Select</div>
+                
+      
+              </li>
+              <li class="table-row"  *ngFor="let i of followuplist">
+                <div class="col col-1" data-label="Date">{{i.follow_up_date}}</div>
+                <div class="col col-2" data-label="Instruction">{{i.follow_up_message}}</div>
+                <div class="col col-3" data-label="Priorty">{{i.consultaion_number}}</div>
+                <!-- <div class="col col-4" data-label="">
+                  <mat-chip-list aria-label="Assigned users" *ngFor="let j of i.assigned_user">
+                  <mat-chip>
+                    <img matChipAvatar src="./assets/images/icon.jpg" />
+                    {{j.data.name}} {{j.data.surname}}
+                  </mat-chip>
+                </mat-chip-list></div> -->
+                <div class="col col-5" data-label="Select"><button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                  <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="More_Info(i)">
+                    <mat-icon>check_circle</mat-icon>
+                    <span>More Information</span>
+                  </button>
+                
+                  <button mat-menu-item (click)="Delete(i)">
+                    <mat-icon>delete_outline</mat-icon>
+                    <span>Delete</span>
+                  </button>
+                  <button mat-menu-item>
+                    <mat-icon>edit</mat-icon>
+                    <span>Edit</span>
+                  </button>
+                </mat-menu></div>
+                
+              </li>
+            </ul>
+          </div>
+   
+      <!-- <mat-stepper #stepper *ngIf="show_make_task">
+        <mat-step [stepControl]="firstFormGroup" errorMessage="Select User">
+          <form [formGroup]="firstFormGroup">
+            <ng-template matStepLabel>Fill out your name</ng-template>
+            <h2>Search for patients</h2>
+            <br>
+                <input  type="text" #search placeholder="Search" #text>
+                <button mat-raised-button color="accent" (click)="Search(text.value)"><mat-icon>search</mat-icon>Search</button>
+            <mat-divider></mat-divider>
+            <ul class="wrapper fadeInDown" *ngIf="patients_array.length >= 1 ">
+              <h1 class="active">Result</h1>
+              <p>Please select a patient</p>
+              
+                 
+                  <main class="leaderboard__profiles" *ngFor="let i of patients_array">
+                    <article class="leaderboard__profile" (click)="Select_patient(i)">
+                      <img src="./assets/images/icon.jpg"  class="leaderboard__picture">
+                      <span class="leaderboard__name">{{i.name}} {{i.surname}}</span>
+                    </article>
+                  </main>
+              
+            </ul>
+            <div class="wrapper fadeInDown" *ngIf="selected_patient!=''">
+              <div id="formContent">
+                <main class="leaderboard__profiles" >
+                  <article class="leaderboard__profile" >
+                    <img src="./assets/images/icon.jpg"  class="leaderboard__picture">
+                    <span class="leaderboard__name">{{selected_patient.name}} {{selected_patient.surname}}</span>
+                    <button mat-raised-button (click)="Remove()"><mat-icon>delete_outline</mat-icon>
+                      </button>
+                    
+                  </article>
+                </main>
+              </div>
+              
+            </div>
+            <div>
+              <button mat-button matStepperNext>Next</button>
+            </div>
+          </form>
+        </mat-step>
+        <mat-step [stepControl]="secondFormGroup" errorMessage="Follow Up Details">
+          <form [formGroup]="secondFormGroup">
+            <ng-template matStepLabel>Fill out your address</ng-template>
+            
+            
+        <form [formGroup]="followupFormGroup">
+            <mat-form-field color="accent" class="example-full-width" appearance="fill">
+              <mat-label>Instructions</mat-label>
+              <input matInput placeholder="Ex. Patient has Covid" formControlName="follow_up_instruction" required>
+                     
+              </mat-form-field>
+              <mat-divider></mat-divider>
+            <mat-form-field color="accent" class="example-full-width" appearance="fill">
+              <mat-label>Message</mat-label>
+              <input type="datetime" matInput placeholder="Ex. Patient has Covid" formControlName="follow_up_message" required>         
+            </mat-form-field>
+            <mat-divider></mat-divider>
+            <mat-form-field appearance="fill" color="accent" class="example-full-width">
+              <mat-label>Choose a date</mat-label>
+              <input matInput [matDatepicker]="picker" formControlName="follow_up_date">
+              <mat-hint>MM/DD/YYYY</mat-hint>
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+            <button mat-raised-button color="primary" (click)="SaveFollowup(followupFormGroup.value)">Add</button>
+            <!-- <button mat-raised-button color="primary" (click)="Close_Make_task()">Cancel</button> -->
+  
+            <!-- <mat-divider></mat-divider>
+          </form>
+          </form>
+        <button mat-button matStepperPrevious>Back</button>
+
+        </mat-step>
+
+        
+      </mat-stepper> -->
+      
+
+   
+</body>
+
+</html>

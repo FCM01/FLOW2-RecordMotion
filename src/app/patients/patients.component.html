@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+  <mat-card >
+    <div *ngIf="show_patients==true">
+      <mat-card-title>Patient Area</mat-card-title>
+      <mat-card-subtitle>Create and Manage</mat-card-subtitle>
+    </div>
+  <mat-card-actions>
+    <div *ngIf="show_patients==true" >
+      <button mat-raised-button color="accent" (click)="Show_Make_Patient()"><mat-icon>add</mat-icon>Add Patient</button>
+    </div>
+    <div *ngIf="show_add_patinet">
+    <button mat-raised-button color="red" (click)="Close_Make_Patient()">Cancel</button>
+    </div>
+   
+  </mat-card-actions>
+</mat-card>
+<div *ngIf="show_add_patinet">
+  <app-patientsignup></app-patientsignup>
+</div>
+  <div class="wrapper fadeInDown">
+    <div id="formContent">
+      
+      
+      <article *ngIf="show_patients" class="leaderboard" >
+        <p>
+          <mat-toolbar color="accent">
+            <span routerLink="/doctordash">Patients list</span>
+          </mat-toolbar>
+        </p>
+        <div class="example-flex-container">
+          <div class="example-button-container">
+          </div>
+        </div>
+        <br>
+        
+        <h2>Click user profile to expand Information </h2>
+      
+        <main class="leaderboard__profiles" *ngFor="let i of patients">
+          
+          <article class="leaderboard__profile" (click) = "expand(i)">
+            <img src="./assets/images/icon.jpg"  class="leaderboard__picture">
+            <span class="leaderboard__name">{{i.name}} {{i.surname}}</span>
+            <span class="leaderboard__value">{{i.clist}}<span> :consulations</span></span>
+          </article>
+        </main>
+      </article>
+
+    </div>
+  </div>
+  
+</body>
+</html>

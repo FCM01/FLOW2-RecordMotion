@@ -1,0 +1,82 @@
+
+      <ng-template mat-tab-label>
+        <mat-icon class="example-tab-icon">list</mat-icon>
+        Table
+      </ng-template>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+           Time line
+          </mat-panel-title>
+          <mat-panel-description>
+            Select Task timeline you wish to see
+            <mat-icon>timeline</mat-icon>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+    
+        <mat-chip-list >
+          <mat-chip color="primary" (click)="Retrive_assigned_task()">
+            <img matChipAvatar src="./assets/images/clock.jpg" />
+            Assigned Tasks
+          </mat-chip>
+          <mat-chip (click)="All_tasks()">
+            <img matChipAvatar src="./assets/images/clock.jpg"/>
+           All Tasks 
+          </mat-chip>
+          <mat-chip color="primary" (click)="Retrieve_Complete_Task()">
+            <img matChipAvatar src="./assets/images/clock.jpg" />
+            Completed Tasks
+          </mat-chip>
+          
+        </mat-chip-list>
+        
+
+      
+       
+      </mat-expansion-panel>
+      <div class="container">
+        <h2>Yours Assigned Tasks<small></small></h2>
+        <ul class="responsive-table">
+          <li class="table-header">
+            <div class="col col-1">Task</div>
+            <div class="col col-2">Date</div>
+            <div class="col col-3">Priority</div>
+            <div class="col col-4">Assigned Users</div> 
+            <div class="col col-5" *ngIf="show_select">Select</div>
+  
+          </li>
+          <li class="table-row"  *ngFor="let i of tabletasklist">
+            <div class="col col-1" data-label="Task">{{i.task}}</div>
+            <div class="col col-2" data-label="Date">{{i.date}}</div>
+            <div class="col col-3" data-label="Priorty">{{i.priority}}</div>
+            <div class="col col-4" data-label="">
+              <mat-chip-list aria-label="Assigned users" *ngFor="let j of i.assigned_user">
+              <mat-chip>
+                <img matChipAvatar src="./assets/images/icon.jpg" />
+                {{j.data.name}} {{j.data.surname}}
+              </mat-chip>
+            </mat-chip-list></div>
+            <div  *ngIf="show_select" class="col col-5" data-label="Select"><button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu  #menu="matMenu">
+              <button mat-menu-item (click)="Delete(i)">
+                <mat-icon>delete_outline</mat-icon>
+                <span>Delete</span>
+              </button>
+              <button mat-menu-item (click)="Complete(i)">
+                <mat-icon>check_circle</mat-icon>
+                <span>Complete</span>
+              </button>
+              <button mat-menu-item>
+                <mat-icon>edit</mat-icon>
+                <span>Edit</span>
+              </button>
+            </mat-menu></div>
+            
+          </li>
+        </ul>
+      </div>
+  
+  
+  

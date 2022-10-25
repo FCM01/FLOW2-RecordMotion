@@ -1,0 +1,239 @@
+
+<div *ngIf="patient== false">
+  <app-kanban (appointmentemit)="retrieveappointment($event)"></app-kanban>
+</div>
+
+<div *ngIf="patient">
+  <p>
+    <mat-toolbar color="accent">
+      <span routerLink="/doctordash">Consultation</span>
+    </mat-toolbar>
+  </p>
+  <mat-card>
+    <article class="leaderboard__profile">
+      <img src="./assets/images/icon.jpg"  class="leaderboard__picture">
+      <span class="leaderboard__name">{{patient_payload.name}}  {{patient_payload.surname}}</span>
+    </article>
+    <br>
+    
+  </mat-card>
+  <mat-divider></mat-divider>
+ 
+  <mat-stepper #stepper>
+
+    <mat-step [stepControl]="firstFormGroup" errorMessage="Fields  required.">
+      <form [formGroup]="firstFormGroup" >
+        <ng-template matStepLabel>Patient vitals</ng-template>
+        <h2>Please check patient vitals</h2>
+        <mat-form-field  color="accent" class="example-full-width" appearance="fill">
+          <mat-label>Heart Rate</mat-label>
+          <input matInput placeholder="Heart Rate _________bpm" formControlName="heartRate" required >
+        </mat-form-field>
+        
+        <mat-form-field color="accent" class="example-full-width" appearance="fill">
+          <mat-label>Blood Pressure</mat-label>
+          <input matInput placeholder="3. Blood Pressure________/_________ (systolic/diastolic)" formControlName="bp" required >
+          
+          
+        </mat-form-field>
+     
+        <mat-label>Position BP was taken</mat-label>
+        <br>
+        <mat-radio-group formControlName="bp_position" aria-label="Position BP was taken">
+          <mat-radio-button value="Sitting">Sitting</mat-radio-button>
+          <mat-radio-button value="Supine">Supine</mat-radio-button>
+          <mat-radio-button value="Standing">Standing</mat-radio-button>
+  
+        </mat-radio-group>
+        <br>
+        <br>
+        <mat-divider></mat-divider>
+        <mat-form-field color="accent" class="example-full-width" appearance="fill">
+          <mat-label>Temperature</mat-label>
+          <input matInput placeholder="Temperature ________ " formControlName="temp" required >
+        </mat-form-field>
+        <mat-form-field  color="accent" class="example-full-width" appearance="fill">
+          <mat-label>Respiratory Rate</mat-label>
+          <input matInput placeholder="Respiratory Rate  _________ / " formControlName="rr" required >
+        </mat-form-field>
+        <div>
+          <button mat-raised-button color="warn"  matStepperNext (click)="SaveFirstForm(firstFormGroup.value)">Next</button>
+          <button mat-raised-button color="warn" (click) = "Cancel()" >Cancel</button>
+
+        </div>
+      </form>
+    </mat-step>
+    <mat-step [stepControl]="secondFormGroup" errorMessage="Fields is required.">
+      <form [formGroup]="secondFormGroup">
+        <ng-template matStepLabel>Fill out Observations</ng-template>
+        <mat-form-field color="accent" appearance="fill">
+          <mat-label>Symptoms</mat-label>
+          <textarea matInput placeholder="Ex. Patient has blocked nose" formControlName="symptoms" required></textarea>
+                 
+        </mat-form-field>
+        <mat-form-field color="accent" class="example-full-width" appearance="fill">
+          <mat-label>Patient Notes</mat-label>
+          <textarea matInput placeholder="Ex. Patient said they feel dizzy" formControlName="patient_notes" required></textarea>
+        </mat-form-field>
+        <div>
+          <button mat-raised-button  matStepperPrevious>Back</button>
+          <button mat-raised-button color="warn" (click) = "Cancel()" >Cancel</button>
+          <button mat-raised-button color="warn" matStepperNext (click)="SaveSecondForm(secondFormGroup.value)">Next</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step [stepControl]="thirdFormGroup" errorMessage="Fields is required.">
+      <form [formGroup]="thirdFormGroup">
+        
+        <mat-form-field color="accent" class="example-full-width" appearance="fill">
+          <mat-label>Diagnosis</mat-label>
+          <textarea matInput placeholder="Ex. Patient has Covid" formControlName="diagnosis" required></textarea>
+                 
+        </mat-form-field>
+        <mat-form-field color="accent" class="example-full-width" appearance="fill">
+          <mat-label>Length of course</mat-label>
+          <input matInput  matInput placeholder="Ex. Three weeks" formControlName="length_of_course" required>
+                 
+        </mat-form-field>
+        <mat-divider></mat-divider>
+        <h2>Perscription Fill In</h2>
+        <div class="container">
+          <ul class="responsive-table">
+            <li class="table-header">
+              <div class="col col-1">Name</div>
+              <div class="col col-2">Quantity</div>
+              <div class="col col-3">Frequency of Use</div>
+              <div class="col col-4"> Select</div>
+    
+            </li>
+            <li class="table-row"  *ngFor="let i of drug_line">
+              <div class="col col-1" data-label="Name">{{i.item_name}}</div>
+              <div class="col col-2" data-label="Quantity">{{i.quantity}}</div>
+              <div class="col col-3" data-label="Frequency of Use">{{i.frequency_of_use}}</div>
+              <div class="col col-4" data-label="Select"><button mat-raised-button (click)="Delete(i)"><mat-icon>delete_outline</mat-icon></button></div>  
+            </li>
+          </ul>
+        </div>
+        <ng-template matStepLabel>Perscription</ng-template>
+        <table class="example-full-width" cellspacing="0"><tr>
+          <td>
+            <mat-form-field color="accent" class="example-full-width" appearance="fill">
+            <mat-label>Item Name</mat-label>
+            <input matInput #in placeholder="Acetaminophen (Tylenol)">
+          </mat-form-field></td>
+          <td><mat-form-field color="accent" class="example-full-width" appearance="fill">
+            <mat-label>Quatity</mat-label>
+            <input matInput #q placeholder="30 pills">
+          </mat-form-field></td>
+          <td><mat-form-field color="accent" class="example-full-width" appearance="fill">
+            <mat-label>Frequency of use</mat-label>
+            <input matInput #fou maxlength="5" placeholder="Ex. 3 per day" >
+          </mat-form-field></td>
+          <td>
+            <button mat-raised-button (click)="Adddrug(in.value,q.value,fou.value)" >Add</button>
+          </td>
+          
+        </tr></table>
+        <div>
+          <button mat-raised-button  matStepperPrevious>Back</button>
+          <button mat-raised-button color="warn" (click) = "Cancel()" >Cancel</button>
+          <button mat-raised-button color="warn" matStepperNext (click)=" SaveTirdForm(thirdFormGroup.value)">Next</button>
+        </div>
+  
+  
+      </form>
+      
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Complete</ng-template>
+      <mat-card>
+        <mat-card-title>Follow up for Consultation</mat-card-title>
+        <mat-card-subtitle>Click and Fill in</mat-card-subtitle>
+        <mat-card-actions>
+          <button mat-raised-button color="primary" (click)="Show_followup()">Follow Up </button>
+          <button *ngIf="followup_created" mat-raised-button  (click)="Close_followup()">Cancel</button>
+
+        </mat-card-actions>
+           <div *ngIf="followup_created">
+          <mat-progress-bar color="accent" mode="indeterminate"></mat-progress-bar>
+           </div>
+      </mat-card>
+      <div *ngIf="show_followup">
+        <form [formGroup]="followupFormGroup">
+          <mat-form-field color="accent" class="example-full-width" appearance="fill">
+            <mat-label>Instructions</mat-label>
+            <input matInput placeholder="Ex. Get x-rays" formControlName="follow_up_instruction" >
+                   
+            </mat-form-field>
+          <mat-form-field color="accent" class="example-full-width" appearance="fill">
+            <mat-label>Message</mat-label>
+            <input type="datetime" matInput placeholder="Ex. Patient has Covid" formControlName="follow_up_message" >         
+          </mat-form-field>
+          <mat-form-field appearance="fill" color="accent" class="example-full-width">
+            <mat-label>Choose a date</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="follow_up_date">
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+          <button mat-raised-button color="primary" (click)="SaveFollowup(followupFormGroup.value)">Add</button>
+          <button mat-raised-button color="primary" (click)="Close_followup()">Cancel</button>
+
+          <mat-divider></mat-divider>
+        </form>
+        
+
+      </div>
+      <br>
+      <br>
+      <mat-divider></mat-divider>
+      <mat-card>
+        <mat-card-title>Create Doctors Note</mat-card-title>
+        <mat-card-subtitle>Click and Fill in</mat-card-subtitle>
+        <mat-card-actions>
+          <button mat-raised-button color="primary" (click)="Show_doctors_note()">Create</button>
+
+        </mat-card-actions>
+           <div *ngIf="doctores_note_created">
+          <mat-progress-bar color="accent" mode="indeterminate">Created</mat-progress-bar>
+           </div>
+      </mat-card>
+      <div *ngIf="show_docters_note">
+        <form [formGroup]="docteors_noteFormGroup">
+          <mat-form-field color="accent" class="example-full-width" appearance="fill">
+            <mat-label>Organisation Name(optional)</mat-label>
+            <input matInput placeholder="Ex. Amazing High School" formControlName="organisation_name">
+                   
+            </mat-form-field>
+            <mat-form-field color="accent" class="example-full-width" appearance="fill">
+              <mat-label>Doters Note</mat-label>
+              <textarea matInput placeholder="Ex. The patient needs to be off work for 3 days" formControlName="doctor_note" ></textarea> 
+            </mat-form-field>
+         
+          <button mat-raised-button color="primary" (click)="Create_Doctors_Note(docteors_noteFormGroup.value)">Submit</button>
+          <button mat-raised-button color="primary" (click)="Close_doctors_note()">Cancel</button>
+
+          <mat-divider></mat-divider>
+        </form>
+        
+
+      </div>
+      <br>
+      <br>
+     
+      <div>
+        <button mat-raised-button  matStepperPrevious>Back</button>
+        <button mat-raised-button (click)="stepper.reset()">Reset</button>
+        <button mat-raised-button color="accent" (click) = "Cancel()" >Cancel</button>
+        <button mat-raised-button color="warn" (click)="Submit()">Submit</button>
+
+        
+  
+     
+  
+      </div>
+    </mat-step>
+  </mat-stepper>
+  
+
+</div>

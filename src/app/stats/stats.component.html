@@ -1,0 +1,109 @@
+<mat-toolbar color="accent">
+    <span routerLink="/doctordash">Statistics</span>
+  </mat-toolbar>
+  <mat-list>
+    <mat-grid-list cols="4" rowHeight="5:3">
+      <mat-grid-tile><mat-card class="example-card">
+        <mat-card-subtitle>Your practise</mat-card-subtitle>
+        <mat-card-title>Todays appointments:</mat-card-title>
+        <mat-card-title><h1 [countUp]="appointment_stats " [duration]="duration"></h1></mat-card-title>
+      </mat-card></mat-grid-tile>
+      <mat-grid-tile><mat-card class="example-card">
+        <mat-card-subtitle>Your practise</mat-card-subtitle>
+        <mat-card-title>Follow Ups:</mat-card-title>
+        <mat-card-title><h1 [countUp]="followups_stats" [duration]="duration"></h1></mat-card-title>
+      </mat-card></mat-grid-tile>
+
+      <mat-grid-tile><mat-card class="example-card">
+        <mat-card-subtitle>Your practise</mat-card-subtitle>
+        <mat-card-title>Total Consultations:</mat-card-title>
+        <mat-card-title><h1 [countUp]="consultations_stats" [duration]="duration"></h1></mat-card-title>
+      </mat-card></mat-grid-tile>
+
+      <mat-grid-tile><mat-card class="example-card">
+        <mat-card-subtitle>Your practise</mat-card-subtitle>
+        <mat-card-title>Total Tasks:</mat-card-title>
+        <mat-card-title><h1 [countUp]="tasks_stats " [duration]="duration"></h1></mat-card-title>
+      </mat-card></mat-grid-tile>
+    </mat-grid-list>
+
+    <mat-accordion class="example-headers-align" multi>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Todays Appointments
+          </mat-panel-title>
+          <mat-panel-description>
+            Todays Appointment projections for the whole day
+            <mat-icon>trending_up</mat-icon>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+    
+        <canvas baseChart width="1400" height="300"
+        [data]="barChartData"
+        [options]="barChartOptions"
+        [plugins]="barChartPlugins"
+        [legend]="barChartLegend"
+        [type]="'bar'">
+        </canvas>
+    
+      </mat-expansion-panel>
+
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Appointments history
+          </mat-panel-title>
+          <mat-panel-description>
+            Appointment history of your practise
+            <mat-icon>trending_up</mat-icon>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+    
+        <canvas baseChart width="1400" height="300"
+        [data]="barChartData2"
+        [options]="barChartOptions2"
+        [plugins]="barChartPlugins2"
+        [legend]="barChartLegend2"
+        [type]="'bar'">
+        </canvas>
+    
+      </mat-expansion-panel>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Patient
+          </mat-panel-title>
+          <mat-panel-description>
+            Patient grow and outreach
+            <mat-icon>trending_up</mat-icon>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+    
+          <mat-card-subtitle>Your practise</mat-card-subtitle>
+          <mat-card-title>Number of patients:</mat-card-title>
+          <mat-card-title><h1 [countUp]="numbert_of_patient" [duration]="duration"></h1></mat-card-title>
+        
+      </mat-expansion-panel>
+    
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Documents 
+          </mat-panel-title>
+          <mat-panel-description>
+            The number of documenbts 
+            <mat-icon>insert_drive_file</mat-icon>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+    
+          <mat-card-subtitle>Your practise</mat-card-subtitle>
+          <mat-card-title>Number of Doctors Notes made :</mat-card-title>
+          <mat-card-title><h1 [countUp]="doctors_note" [duration]="duration"></h1></mat-card-title>
+          <mat-divider></mat-divider>
+          <mat-card-subtitle>Your practise</mat-card-subtitle>
+          <mat-card-title>Number of Percriptions made :</mat-card-title>
+          <mat-card-title><h1 [countUp]="perscription" [duration]="duration"></h1></mat-card-title>
+      
+      </mat-expansion-panel>
+    </mat-accordion>

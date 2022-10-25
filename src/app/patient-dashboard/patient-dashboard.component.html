@@ -1,0 +1,120 @@
+<app-patients *ngIf="patient_payload ==''" (dataemit)="retrievepatient($event)" ></app-patients>
+<div *ngIf =" patient_payload !=''">  
+
+  
+    <article class="leaderboard" >
+        <header>
+          <h1 class="leaderboard__title"><span class="leaderboard__title--top">Patients</span><span class="leaderboard__title--bottom">Information</span></h1>
+          <button mat-raised-button (click)="Deselect()">Back</button>
+        </header>
+        <main class="leaderboard__profiles" >
+           
+            <mat-card class="content example-card">
+              <article class="leaderboard__profile">
+                <img src="./assets/images/icon.jpg"  class="leaderboard__picture">
+                <span class="leaderboard__name">{{patient_payload.name}} {{patient_payload.surname}}</span>
+                
+              </article>
+              <mat-card-subtitle *ngIf="show_options">
+                <button mat-raised-button (click)="DeleteCheck()"><mat-icon>delete_outline</mat-icon><span>Delete</span></button>
+                <button mat-raised-button (click)="Show_Edit()"><mat-icon>edit</mat-icon><span>Edit</span></button>
+
+                  
+
+              </mat-card-subtitle>
+              <mat-card-content *ngIf="show_options">
+                <p>{{ longText }}</p>
+              </mat-card-content>
+              <mat-divider inset></mat-divider>
+              <mat-card-actions *ngIf="show_options" >
+                <div >
+                  <button mat-button (click)="Show_followups()">Follow Up Statistics</button>
+                  <button mat-button (click)="Show_consultation()">Consultation Statistics</button>
+                </div> 
+              </mat-card-actions>
+            </mat-card>
+            <div *ngIf="show_delete_check">
+              <mat-card>
+                <mat-card-title>Are you sure you want to delete this patient</mat-card-title>
+                <mat-card-subtitle>Please Confirm</mat-card-subtitle>
+                <mat-card-actions align="end">
+                  <button mat-raised-button   (click)="Delete_patient()">Delete</button>
+                  <button mat-raised-button  color="accent" (click)="Close_DeleteCHeck()">Cancel</button>
+                </mat-card-actions>
+                <mat-progress-bar color="accent" mode="indeterminate"></mat-progress-bar>
+              </mat-card>
+            </div>
+           
+            <mat-card *ngIf="show_consultations">
+              <mat-card-subtitle >The patients</mat-card-subtitle>
+              <mat-card-title>Total number of consultations:</mat-card-title>
+              <mat-card-title><h1 [countUp]="consultation_number" [duration]="duration"></h1></mat-card-title>
+              <mat-card-actions align="end">
+                <button mat-raised-button  color="accent" (click)="Close_consultation()">Cancel</button>
+              </mat-card-actions>
+            </mat-card>
+            <mat-card *ngIf="show_followup">
+              <mat-card-subtitle >The patients</mat-card-subtitle>
+              <mat-card-title>Total number of Follow Ups:</mat-card-title>
+              <mat-card-title><h1 [countUp]="followup_number" [duration]="duration"></h1></mat-card-title>
+              <mat-card-actions align="end">
+                <button mat-raised-button  color="accent" (click)="Close_followup()">Cancel</button>
+              </mat-card-actions>
+            </mat-card>
+             
+            
+            <div class="wrapper fadeInDown" *ngIf="show_edit">
+              <div id="formContent">
+                  <h2 class="active">Patient Profile</h2>
+                <br>
+                <button mat-raised-button  color="accent" (click)="Close_Edit()">Cancel</button>
+
+                <mat-card>ID number :{{patient_profile.id_number}}</mat-card>
+                <h2 class="active">Personal Information</h2>
+                <form [formGroup]="EditForm" (ngSubmit)="Submit(EditForm.value)">
+                  <label for="name">Name</label>
+                  <input matInput  formControlName="name" type="text" id="name" class="fadeIn second"  placeholder="{{patient_profile.name}}">
+                  <label for="surname">Surname</label>
+                  <input matInput formControlName="surname" type="text" id="surname"   class="fadeIn second"  placeholder="{{patient_profile.surname}}">
+                  <label for="email">Email</label>
+                  <input  matInput formControlName="email" type="text"  id="email"  class="fadeIn second"  placeholder="{{patient_profile.email}}">
+                  <label for="date_of_birth">Date of Birth</label>
+                  <input matInput formControlName="date_of_birth" type="text"  id="date_of_birth"  class="fadeIn second"  placeholder="{{patient_profile.date_of_birth}}">
+                  <label for="phonenumber">Phone Number</label>
+                  <input matInput formControlName="phone_number" type="text"   class="fadeIn second"  placeholder="{{patient_profile.phone_number}}">
+                  <h2 class="active">Address Information</h2>
+                  <label for="street_address">Street Address</label>
+                  <input matInput formControlName="street_address"type="text" id="street_address"  class="fadeIn second"  placeholder="{{patient_profile.street_address}}">
+                  <label for="phonenumber">City</label>
+                  <input matInput formControlName="city" type="text"   class="fadeIn second"  placeholder="{{patient_profile.city}}">
+                  <label for="phonenumber">Postal Code</label>
+                  <input matInput formControlName="postal_code"type="text"  id="phonenumber"  class="fadeIn second"  placeholder="{{patient_profile.postal_code}}">
+                  <h2 class="active">Medical Aid Information</h2>
+                  <label for="man">Medical Aid Name</label>
+                  <input matInput formControlName="medical_aid_providers" type="text"  id="man"  class="fadeIn second"  placeholder="{{patient_profile.medical_aid_providers}}">
+                
+                  <label for="manum">Medical Aid Number</label>
+                  <input matInput formControlName="medical_aid_number" type="text"  id="manum"  class="fadeIn second"  placeholder="{{patient_profile.medical_aid_number}}">
+                  
+                  <br>
+                  <h2 class="active">Next of Kin Information</h2>
+                  <label for="kname">Name</label>
+                  <input  matInput formControlName="nearest_family_friend_name"type="text"  id="kname" formControlName="first_name" class="fadeIn second"  placeholder="{{patient_profile.nearest_family_friend_name}}">
+                  <label for="kphonenumber">Phone Number</label>
+                  <input matInput formControlName="nearest_family_friend_phonenumber" type="text"  id="kphonenumber" formControlName="first_name" class="fadeIn second"  placeholder="{{patient_profile.nearest_family_friend_phonenumber}}">
+                  <input
+                [disabled]="!EditForm.valid"
+                type="submit"
+                class="fadeIn fourth"
+                value="Submit"
+              />
+              </form>
+              
+              </div>
+              
+              </div>
+              
+         
+      
+
+

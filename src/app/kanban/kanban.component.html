@@ -1,0 +1,266 @@
+<mat-card >
+  <div *ngIf="show_home==true">
+    <mat-card-title>Appointments Area</mat-card-title>
+    <mat-card-subtitle>Create and Manage</mat-card-subtitle>
+  </div>
+ 
+  <mat-card-actions>
+    <div *ngIf="show_home==true" >
+      <button mat-raised-button color="accent" (click)="Show_Make_Appointment()">Make Appointment</button>
+
+        <button mat-raised-button color="accent"
+            matBadge="{{num_ptc}}"  matBadgeColor="accent" (click)="Show_Profile_Compelete()">
+          Profiles To Complete
+        </button>
+    </div>
+    <div *ngIf="show_makeappointment">
+    <button mat-raised-button color="red" (click)="Close_Make_Appointment()">Cancel</button>
+    </div>
+    <div *ngIf="show_patient_profile_complete">
+      <button mat-raised-button color="red" (click)="Close_Profile_Compelete()">Cancel</button>
+      </div>
+  </mat-card-actions>
+</mat-card>
+<div *ngIf="show_makeappointment">
+  <app-appointments></app-appointments>
+</div>
+
+<div *ngIf="show_patient_profile_complete">
+  
+ <app-complete-profile-form></app-complete-profile-form>
+</div>
+
+<mat-tab-group mat-align-tabs="center" *ngIf="show_home">
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <mat-icon class="example-tab-icon">grid_on</mat-icon>
+      Kanban
+    </ng-template>
+    <div *ngIf="message_block">
+      <mat-card class="alert">{{message}}</mat-card>
+    </div>
+    
+    <menu >
+      <button mat-raised-button color="accent" (click)="Reload()"><mat-icon>repeat</mat-icon>Reload</button>
+     
+    </menu>
+    <mat-accordion class="example-headers-align" multi></mat-accordion>
+ 
+      
+    <div class="root">
+      <div class="board">
+        <div class="board-wrapper">
+          <div class="board-columns">
+            
+            <div cdkDropList 
+                cdkDropListOrientation="horizontal" class="board-columns"
+                (cdkDropListDropped)="dropGrid($event)">
+            <div 
+               cdkDragLockAxis="x" class="board-column" 
+               *ngFor="let column of board.columns" cdkDrag>
+              <div class="column-title" cdkDragHandle>
+                {{ column.name}}
+              </div>
+              <mat-divider></mat-divider>
+              <div class="tasks-container"
+              id="{{column.id}}"
+              [cdkDropListConnectedTo]="['21','12','18']"
+              cdkDropList
+              [cdkDropListData]="column.tasks"
+              (cdkDropListDropped)="drop($event)">
+                <div class="task dd-item" *ngFor="let item of column.tasks" cdkDrag>
+                  
+                  <!-- <h2 class="active">{{ item.name}} {{ item.surname }}
+                    <p>Time:{{ item.time_slot}}</p>
+                  </h2> -->
+                  <h3 class="title dd-handle" >Patient number: {{ item.patient_number}}</h3>
+                    <h2 class="title " >{{ item.name}} {{ item.surname }}</h2>
+                 
+                      <div class="text" contenteditable="true">Time Slot:{{ item.time_slot}}
+                        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                          <mat-icon>more_vert</mat-icon>
+                        </button>
+                        <mat-menu #menu="matMenu">
+                          <button mat-menu-item (click)="Delete_Appointment(item)">
+                            <mat-icon>delete_outline</mat-icon>
+                            <span>Delete</span>
+                          </button>
+                          <button mat-menu-item (click)="Consult(item)">
+                            <mat-icon>edit</mat-icon>
+                            <span>Consult</span>
+                          </button>
+                          <button mat-menu-item (click)="Set_rescedule_appointment(item)">
+                            <mat-icon>notifications_off</mat-icon>
+                            <span>Reschedule</span>
+                          </button>
+                        </mat-menu>
+                   </div> 
+                 
+            
+                  
+                </div>
+              </div>
+    
+            </div>
+          </div>
+    
+  <mat-expansion-panel *ngIf="show_reschedule" [expanded]="true">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Day of the reschedule
+      </mat-panel-title>
+      <mat-panel-description>
+        Select the date the appointment should be moved too
+        <mat-icon>date_range</mat-icon>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <mat-form-field appearance="fill" color="accent" class="example-full-width">
+      <mat-label>Choose a date</mat-label>
+      <input matInput #date type ="date">
+      <mat-hint>YYYY-MM-DD</mat-hint>
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <mat-action-row>
+      <button mat-raised-button color="red" (click)=" Close_Reschedule()">Cancel</button>
+      <button mat-raised-button color="accent" (click)=" Reschedule_appointment(date.value)">Submit</button>
+    </mat-action-row>
+  </mat-expansion-panel>
+    
+          </div>
+        </div>
+      </div>
+    </div>  
+  </mat-tab>
+
+  <mat-tab>
+    <div  *ngIf="show_reschedule_table == false">
+      <ng-template mat-tab-label>
+        <mat-icon class="example-tab-icon">list</mat-icon>
+        Table
+      </ng-template>
+      <mat-accordion class="example-headers-align" multi></mat-accordion>
+      
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+             Time line
+            </mat-panel-title>
+            <mat-panel-description>
+              Select appointments timeline you wish to see
+              <mat-icon>timeline</mat-icon>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+      
+          <mat-chip-list >
+            <mat-chip (click)="Current_Todays_Appointment()">
+              <img matChipAvatar src="./assets/images/clock.jpg"/>
+              Current hour
+            </mat-chip>
+            <mat-chip color="primary" (click)="All_Todays_Appointment()">
+              <img matChipAvatar src="./assets/images/clock.jpg" />
+              The Whole day
+            </mat-chip>
+            <mat-chip color="accent" (click)="Get_dates()">
+              <img matChipAvatar src="./assets/images/clock.jpg" />
+              History
+            </mat-chip>
+          </mat-chip-list>
+          
+  
+          <div *ngIf="show_dates">
+            <br>
+            <mat-divider></mat-divider>
+            <br>
+            <mat-chip-list *ngFor="let i of dates"> 
+              <mat-chip (click)="Select_dates(i)">
+                <img matChipAvatar src="./assets/images/clock.jpg"/>
+                {{i}}
+              </mat-chip>
+              <mat-divider></mat-divider>
+            </mat-chip-list>
+            <br>
+            <mat-divider></mat-divider>
+            <br>
+            <button mat-raised-button color="accent" (click)=" Close_dates()">Close</button>
+          </div>
+         
+        </mat-expansion-panel>
+         
+        
+          
+    
+          <div class="container">
+            <h2 style="color:pink ;">{{time}} Appointment Table <small></small></h2>
+            <ul class="responsive-table">
+              <li class="table-header">
+                <div class="col col-1">Name</div>
+                <div class="col col-2">Surname</div>
+                <div class="col col-3">Time Slot</div>
+                <div class="col col-4">Email</div>
+                <div class="col col-5">Phone Number</div>
+                <div *ngIf="allow_delete" class="col col-6">Select</div>
+      
+              </li>
+              <li class="table-row"  *ngFor="let i of tableappointmentlist">
+                <div class="col col-1" data-label="Name">{{i.name}}</div>
+                <div class="col col-2" data-label="Surname">{{i.surname}}</div>
+                <div class="col col-3" data-label="Time Slot">{{i.time_slot}}</div>
+                <div class="col col-4" data-label="Email">{{i.email}}</div>
+                <div class="col col-5" data-label="Phone number">{{i.phone_number}}</div>
+                <div *ngIf="allow_delete" class="col col-6" data-label="Select"><button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                  <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu">
+                  <button mat-menu-item  (click)="Delete_Appointment(i)">
+                    <mat-icon>delete_outline</mat-icon>
+                    <span>Delete</span>
+                  </button>
+                  <button mat-menu-item   (click)="Consult(i)">
+                    <mat-icon>edit</mat-icon>
+                    <span>Consult</span>
+                  </button>
+                  <button mat-menu-item  (click)=" Set_rescedule_appointment_table(i)">
+                    <mat-icon>notifications_off</mat-icon>
+                    <span>Reschedule</span>
+                  </button>
+                  
+                </mat-menu></div>
+                
+              </li>
+            </ul>
+          </div>
+
+    </div>
+        <mat-expansion-panel *ngIf="show_reschedule_table" [expanded]="true">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Day of the reschedule
+            </mat-panel-title>
+            <mat-panel-description>
+              Select the date the appointment should be moved too
+              <mat-icon>date_range</mat-icon>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+      
+          <mat-form-field appearance="fill" color="accent" class="example-full-width">
+            <mat-label>Choose a date</mat-label>
+            <input matInput #date type ="date">
+            <mat-hint>YYYY-MM-DD</mat-hint>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+      
+          <mat-action-row>
+            <button mat-raised-button color="red" (click)="Close_Reschedule_table()">Cancel</button>
+            <button mat-raised-button color="accent" (click)="Reschedule_appointment(date.value)">Submit</button>
+            
+          </mat-action-row>
+        </mat-expansion-panel>
+     
+
+  </mat-tab>
+</mat-tab-group>
+

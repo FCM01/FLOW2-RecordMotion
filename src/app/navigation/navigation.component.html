@@ -1,0 +1,101 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #drawer class="sidenav" fixedInViewport
+      [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+      [mode]="(isHandset$ | async) ? 'over' : 'push'"
+      [opened]="(isHandset$ | async) === true">
+    <mat-toolbar> Menu <mat-chip-list>
+      <mat-chip>
+      <img matChipAvatar src="./assets/images/FLOW2 Logo.png" />
+    </mat-chip>
+     
+    
+  </mat-chip-list>
+     </mat-toolbar>
+     <mat-divider></mat-divider>
+     
+    <mat-nav-list>
+      <mat-card class="example-card">
+        <mat-card-title>{{user}}</mat-card-title>
+        <mat-card-subtitle>Welcome</mat-card-subtitle>
+      </mat-card>
+      <mat-card color="accent" class="demo-inline-calendar-card">
+        <mat-calendar  [(selected)]="selected"></mat-calendar>
+      </mat-card>
+      <p>Selected date: {{selected}}</p>
+  
+      <!-- <button align="end" mat-button  (click)="Show_settings()"><mat-icon>settings</mat-icon>Settings</button> -->
+    </mat-nav-list>
+    <mat-divider></mat-divider>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color="accent">
+      <button
+        type="button"
+        aria-label="Toggle sidenav"
+        mat-icon-button
+        (click)="drawer.toggle()"
+        *ngIf="(isHandset$ | async)==false">
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      </button>
+      <span>RecordMotion v3</span>
+      <span class="example-spacer"></span>
+      <a mat-stroked-button (click)="Show_Home()"><mat-icon>home</mat-icon>Home</a> 
+      <span class="example-spacer"></span>
+      <a mat-stroked-button (click)="Show_Appointments()"><mat-icon>calendar_today</mat-icon>Appointment</a>
+      <span class="example-spacer"></span>
+      <a mat-stroked-button (click)="Show_Patients()"><mat-icon>people_outline</mat-icon>Patients</a>
+      <span class="example-spacer"></span>
+      <a mat-stroked-button (click)="Show_Tasks()"><mat-icon>calendar_today</mat-icon>Task</a>
+      <span class="example-spacer"></span>
+      <!-- <a mat-stroked-button (click)="Show_Followup()"><mat-icon>redo</mat-icon>Follow Up</a>
+      <span class="example-spacer"></span> -->
+      <button mat-stroked-button [matMenuTriggerFor]="menu"><mat-icon>filter_none</mat-icon>Services</button>
+      <span class="example-spacer"></span>
+      <a mat-stroked-button (click)="Show_settings()"><mat-icon>settings</mat-icon>Settings</a>
+      <span class="example-spacer"></span>
+      <mat-menu #menu="matMenu" >
+        
+       
+        <button mat-menu-item  (click)="Show_Stats()"><mat-icon>calendar_today</mat-icon>Stats</button>
+        <!-- <button mat-menu-item  (click)="Show_Consultations()"><mat-icon>calendar_today</mat-icon>Consultions</button> -->
+        <button mat-menu-item  (click)="Show_Documents()"><mat-icon>calendar_today</mat-icon>Documents</button>
+
+      </mat-menu>
+      <span class="example-spacer"></span>
+    
+      <span class="spacer"></span>
+      <button mat-stroked-button  (click)="Logout()">Log out</button>
+    </mat-toolbar>
+    <div *ngIf="home">
+      <app-docdash></app-docdash>
+
+    </div>
+    <div *ngIf="show_appointment" >
+      <app-consultation></app-consultation>
+      
+    </div>
+    <div *ngIf="show_patients">
+      <app-patient-dashboard></app-patient-dashboard>
+      
+    </div>
+    <div *ngIf="show_task">
+      <app-tasks></app-tasks>
+      
+    </div>
+    <div *ngIf="show_settings">
+      <app-settings></app-settings>
+      
+    </div>
+    <div *ngIf="show_stats">
+      <app-stats></app-stats>
+    </div>
+    <div *ngIf="show_consultations">
+      <app-consultaionoverview></app-consultaionoverview>
+    </div>
+    <div *ngIf="show_documents">
+      <app-documents></app-documents>
+    </div>
+    
+  
+  </mat-sidenav-content>
+</mat-sidenav-container>
